@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	
+	<!-- https://aljjabaegi.tistory.com/413 -->
+	<!-- https://jeong-pro.tistory.com/154 -->
+	<!-- TRACE > DEBUG > INFO > WARN > ERROR  -->
+
+	<property name="LOG_DIR"				value="/app/logs" />
+	<property name="SERVER_NAME"		value="NateOnBiz.logback" />
+	<property name="LOG_PATH_NAME"	value="${LOG_DIR}/${SERVER_NAME}" />
+	<property name="FILE_NAME"			value="NateOnBiz" />
+
+	<!-- STDOUT Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!-- <Pattern>%d{HH:mm} %-5level %logger{36} - %msg%n</Pattern>  -->
+            <!-- <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{35} - %msg%n</pattern> -->
+            
+            <!-- [2018-08-17] [15:24:21.355] [log level] [logName] [class.java line] [message] -->
+			<!-- 날짜 시간 로그레벨 로거이름 로그인클래스.java 몇번째줄 로그메세지 -->
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%c{1}] [%F:%L] [%m] %n</pattern>
+        </layout>
+    </appender>
+
+	<!-- FILE Appender -->
+	<!-- 일자별 로그파일 저장 (30일) -->
+	<!-- 1 Day 이내여도 100 MB 넘으면 롤링 or whenever the file size reaches 100MB ( kb, mb, gb )  -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH_NAME}/${FILE_NAME}.log</file>		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH_NAME}/${FILE_NAME}_%d{yyyyMMdd}.%i.log</fileNamePattern>						
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">				
+				<maxFileSize>100MB</maxFileSize>                
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%F]%M\(%L\) : %m%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 특정 Package 만 Logging -->
+	<logger name="com.mw.csp.email" level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<!-- 기본 Logging -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>	
+
+</configuration>
