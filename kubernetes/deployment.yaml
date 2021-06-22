@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: csp-email
-  namespace: cspapi
+  namespace: management
   labels:
     app: csp-email
 spec:
@@ -16,14 +16,14 @@ spec:
         app: csp-email
     spec:
       containers:
-      - name: nateonbiz
-        image: myregistry.mwportal.com:30001/cspapi/email:1.0
+      - name: email
+        image: 592806604814.dkr.ecr.ap-northeast-2.amazonaws.com/email:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
           name: http
           protocol: TCP
-      hostAliases:
-      - ip: 211.188.180.36
-        hostnames:
-        - cspapi.sktelecom.com
+#      hostAliases:
+#      - ip: 211.188.180.36
+#        hostnames:
+#        - cspapi.sktelecom.com
