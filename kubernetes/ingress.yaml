@@ -2,19 +2,19 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: csp-email
-  namespace: cspapi
+  namespace: management
   labels:
     app.kubernetes.io/name: "csp-email"
   annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/ssl-redirect: "true"
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/rewrite-target: /    
 spec:
   rules:
-  - host: csp-email.mwportal.com
+  - host: csp-email.biz-think.net
     http:
       paths:
       - path: /
         backend:
           serviceName: csp-email
-          servicePort: 8080      
+          servicePort: 8080
